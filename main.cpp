@@ -3,16 +3,16 @@ using namespace std;
 
 int main()
 {
-    int sliding_window = 15, look_ahead = 4, counter = 0,counter1 = 0;
+    long long int sliding_window = 15, look_ahead = 4, counter = 0,counter1 = 0;
     char window[sliding_window];
     int offset = 0, length = 0, items_checked = 0;
     string line, encoded_string = "";
-
+    bool start = true;
     cin >> line;
 
     for (int i = 0; i < sliding_window; i++)
     {
-        window[i] = '0';
+        window[i] = '\0';
     }
     for (int i = sliding_window - look_ahead; i < sliding_window; i++)
     {
@@ -30,13 +30,22 @@ int main()
             
             while (window[i] == window[sliding_window - look_ahead + counter])
             {
+                
                 length++;
-                offset = sliding_window - look_ahead + counter - i;
+                if(start)
+                    for(int m=0;m<sliding_window-look_ahead;m++){
+                        if(window[m] == window[i]){
+                            offset = sliding_window - look_ahead + counter - m;
+                            start = false;
+                        }
+                    }
                 i++;
                 counter++;
+
             }
+            start = true;
         }
-        if (length == 0)
+        if (length == 0)    
         {   
     
             items_checked += 1;
@@ -68,7 +77,7 @@ int main()
                 }
                 
             }
-            encoded_string += "<"+to_string(length)+"," +to_string(offset)+">";
+            encoded_string += "("+to_string(offset)+"," +to_string(length)+")";
             items_checked += length;
             length = 0;
             counter = 0;
@@ -76,5 +85,6 @@ int main()
     
         
     }
+
     cout << encoded_string;
 }
