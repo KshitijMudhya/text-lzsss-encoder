@@ -3,10 +3,10 @@ using namespace std;
 
 int main()
 {
-    long long int sliding_window = 15, look_ahead = 4, counter = 0,counter1 = 0;
+    int sliding_window = 15, look_ahead = 4, counter = 0,counter1 = 0;
     char window[sliding_window];
     int offset = 0, length = 0, items_checked = 0;
-    string line, encoded_string = "";
+    string line, encoded_string = "",test_string =  "";
     bool start = true;
     cin >> line;
 
@@ -63,6 +63,9 @@ int main()
         }
         else
         {
+            for(int i=sliding_window-look_ahead;i<sliding_window-look_ahead+length;i++){
+                test_string += window[i];
+            }
             for (int j = 0; j < length; j++)
             {
                 for (int i = 0; i < sliding_window; i++)
@@ -77,7 +80,13 @@ int main()
                 }
                 
             }
-            encoded_string += "("+to_string(offset)+"," +to_string(length)+")";
+            if((to_string(offset) +","+to_string(length)).size() >= test_string.size()){
+                encoded_string += test_string;
+            }
+            else{
+                encoded_string += to_string(offset) +","+to_string(length);
+            }
+            test_string = "";
             items_checked += length;
             length = 0;
             counter = 0;
